@@ -16,6 +16,7 @@ class Helpers(unittest.TestCase):
         """
         Tests print result
         """
+        self.maxDiff = None
         captured_output = StringIO()
         sys.stdout = captured_output
         function()

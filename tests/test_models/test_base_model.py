@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import unittest
-from models.base_model import BaseModel
+from models.base_model import BaseModel, __doc__
 from help_functions.helpers import Helpers
+
 
 class TestBaseModel(unittest.TestCase):
     """
@@ -35,18 +36,39 @@ class TestBaseModel(unittest.TestCase):
         my_model = BaseModel()
         my_model.name = "My First Model"
         my_model.my_number = 89
-        helpers.stdout(lambda:print(my_model),(f"[BaseModel] ({my_model.id}) " 
-                "{"
-                f"'id': '{my_model.id}', "
-                f"'created_at': {my_model.created_at}, "
-                f"'updated_at': {my_model.updated_at}, "
-                f"'name': 'My First Model', "
-                f"'my_number': 89"
-                "}"))
-        """ my_model.save()
-        print(my_model)
+        my_dict = {
+            "id": my_model.id,
+            'created_at': my_model.created_at,
+            'updated_at': my_model.updated_at,
+            "name": "My First Model",
+            "my_number": 89
+        }
+        helpers.stdout(lambda: print(my_model),
+                       f"[BaseModel] ({my_model.id}) {my_dict}\n")
+        my_old_updated_at = my_model.updated_at
+        my_model.save()
+        self.assertNotEqual(my_model.updated_at, my_old_updated_at)
         my_model_json = my_model.to_dict()
-        print(my_model_json)
+        my_dict = {
+            "id": my_model.id,
+            'created_at': str(my_model.created_at.isoformat()),
+            'updated_at': str(my_model.updated_at.isoformat()),
+            "name": "My First Model",
+            "my_number": 89
+        }
+        helpers.stdout(lambda: print(my_model_json),
+                       f"{my_dict}\n")
         print("JSON of my_model:")
+        my_detailed_dict = {
+            "my_number": f"(<class 'int'>) - 89",
+            "name": f"(<class 'str'>) - My First Model",
+            "__class__": f"(<class 'str'>) - BaseModel",
+            "updated_at": f"(<class 'str'>) - {my_model_json['updated_at']}",
+            "id": f"(<class 'str'>) - {my_model_json['id']}",
+            "created_at": f"(<class 'str'>) - {my_model_json['created_at']}",
+        }
         for key in my_model_json.keys():
-            print("\t{}: ({}) - {}".format(key, type(my_model_json[key]), my_model_json[key])) """
+            helpers.stdout(lambda: print("\t{}: ({}) - {}"
+                                         .format(key,
+                                                 type(my_model_json[key]), my_model_json[key])),
+                           f"\t{key}: {my_detailed_dict[key]}\n")
