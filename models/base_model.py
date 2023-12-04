@@ -5,6 +5,7 @@ base model module, for managing all objects
 
 import uuid
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -27,6 +28,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """
@@ -39,6 +41,7 @@ class BaseModel:
         updates the public instance attribute updated_at with the current datetime
         """
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
@@ -48,4 +51,5 @@ class BaseModel:
         for key, value in self.__dict__.items():
             temp_dict[key] = value if ["created_at", "updated_at"].count(key) == 0\
                 else self.__getattribute__(key).isoformat()
+        temp_dict['__class__'] = type(self).__name__
         return temp_dict

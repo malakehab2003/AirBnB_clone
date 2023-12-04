@@ -67,7 +67,7 @@ class TestBaseModel(unittest.TestCase):
         my_detailed_dict = {
             "my_number": f"(<class 'int'>) - 89",
             "name": f"(<class 'str'>) - My First Model",
-            "__class__": f"(<class 'str'>) - BaseModel",
+            "__class__": f"(<class 'str'>) - {my_model_json['__class__']}",
             "updated_at": f"(<class 'str'>) - {my_model_json['updated_at']}",
             "id": f"(<class 'str'>) - {my_model_json['id']}",
             "created_at": f"(<class 'str'>) - {my_model_json['created_at']}",
