@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from datetime import datetime
 import unittest
 from models.base_model import BaseModel, __doc__
 from help_functions.helpers import Helpers
@@ -34,6 +35,10 @@ class TestBaseModel(unittest.TestCase):
         """
         helpers = Helpers()
         my_model = BaseModel()
+        self.assertIsInstance(my_model, BaseModel)
+        self.assertIsInstance(my_model.id, str)
+        self.assertIsInstance(my_model.created_at, datetime)
+        self.assertIsInstance(my_model.updated_at, datetime)
         my_model.name = "My First Model"
         my_model.my_number = 89
         my_dict = {
