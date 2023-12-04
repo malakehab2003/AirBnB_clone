@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 get_authors.sh
+*.json
+main.py
