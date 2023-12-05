@@ -51,7 +51,13 @@ class FileStorage:
                 }
                 file_contents = file.read()
                 json_loads = json.loads(file_contents)
-                self.__objects = {}
+                self.clear_objects()
                 for key, value in json_loads.items():
                     object_init = object_dict[value["__class__"]]
                     self.__objects[key] = object_init(**value)
+
+    def clear_objects(self):
+        """
+        clears all objects
+        """
+        self.__objects = {}

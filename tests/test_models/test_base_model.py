@@ -59,7 +59,8 @@ class TestBaseModel(unittest.TestCase):
             'created_at': str(my_model.created_at.isoformat()),
             'updated_at': str(my_model.updated_at.isoformat()),
             "name": "My First Model",
-            "my_number": 89
+            "my_number": 89,
+            "__class__": "BaseModel"
         }
         helpers.stdout(lambda: print(my_model_json),
                        f"{my_dict}\n")
