@@ -5,6 +5,7 @@ File Storage Module
 import json
 import os
 import sys
+from help_functions.storage_helpers import check_if_float
 
 
 class FileStorage:
@@ -47,7 +48,8 @@ class FileStorage:
             with open(self.__file_path, "r") as file:
                 from models.base_model import BaseModel
                 object_dict = {
-                    "BaseModel": BaseModel
+                    "BaseModel": BaseModel,
+                    "dict": dict
                 }
                 file_contents = file.read()
                 json_loads = json.loads(file_contents)
@@ -61,3 +63,24 @@ class FileStorage:
         clears all objects
         """
         self.__objects = {}
+
+    def delete_object(self, key):
+        """
+        delete a specific object
+        based on its key
+        """
+        del self.__objects[key]
+        self.save()
+
+    def update_object(self, key, attrib, value):
+        """
+        update a specific object
+        based on its key
+        """
+        casted_value = value
+        if check_if_float(value):
+            casted_value = float(value)
+        elif value.isdecimal():
+            casted_value = int(value)
+        setattr(self.__objects[key], attrib, casted_value)
+        self.save()

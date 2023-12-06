@@ -2,7 +2,7 @@
 from datetime import datetime
 import unittest
 from models.base_model import BaseModel, __doc__
-from help_functions.helpers import Helpers
+from help_functions.test_helpers import Helpers
 
 
 class TestBaseModel(unittest.TestCase):
@@ -76,5 +76,6 @@ class TestBaseModel(unittest.TestCase):
         for key in my_model_json.keys():
             helpers.stdout(lambda: print("\t{}: ({}) - {}"
                                          .format(key,
-                                                 type(my_model_json[key]), my_model_json[key])),
+                                                 type(my_model_json[key]),
+                                                 my_model_json[key])),
                            f"\t{key}: {my_detailed_dict[key]}\n")

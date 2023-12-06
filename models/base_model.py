@@ -38,18 +38,20 @@ class BaseModel:
 
     def save(self):
         """
-        updates the public instance attribute updated_at with the current datetime
+        updates the public instance attribute
+        updated_at with the current datetime
         """
         self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
         """
-        returns a dictionary containing all keys/values of __dict__ of the instance
+        returns a dictionary containing all keys/values
+        of __dict__ of the instance
         """
         temp_dict = {}
         for key, value in self.__dict__.items():
-            temp_dict[key] = value if ["created_at", "updated_at"].count(key) == 0\
+            temp_dict[key] = value if key not in ["created_at", "updated_at"]\
                 else self.__getattribute__(key).isoformat()
         temp_dict['__class__'] = type(self).__name__
         return temp_dict

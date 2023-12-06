@@ -3,7 +3,7 @@
 """
 import unittest
 
-from help_functions.helpers import Helpers
+from help_functions.test_helpers import Helpers
 
 
 class TestHelpers(unittest.TestCase):

@@ -7,7 +7,7 @@ from io import StringIO
 import unittest
 from unittest.mock import patch
 from console import HBNBCommand, __doc__
-from help_functions.helpers import Helpers
+from help_functions.test_helpers import Helpers
 
 
 class TestHBNBCommand(unittest.TestCase):
@@ -42,7 +42,7 @@ class TestHBNBCommand(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fakeOutput:
             self.assertFalse(console.onecmd('test'))
         self.assertEqual('Testing!!!!\n', fakeOutput.getvalue())
-        l = console.precmd('exit')
-        r = console.onecmd(l)
-        r = console.postcmd(r, l)
-        self.assertFalse(r)
+        line = console.precmd('exit')
+        result = console.onecmd(line)
+        result = console.postcmd(result, line)
+        self.assertFalse(result)

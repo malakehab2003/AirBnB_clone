@@ -2,7 +2,7 @@
 from datetime import datetime
 import unittest
 from models.base_model import BaseModel, __doc__
-from help_functions.helpers import Helpers
+from help_functions.test_helpers import Helpers
 
 
 class TestBaseModel(unittest.TestCase):
