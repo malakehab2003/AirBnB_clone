@@ -1,57 +1,58 @@
 #!/usr/bin/python3
-"""
-base model module, for managing all objects
-"""
-
+"""make Base class"""
 import uuid
-from datetime import datetime
+import datetime
 from models import storage
 
 
-class BaseModel:
+class BaseModel():
     """
-    defines all common attributes/methods for other classes
+    base class to defines all common attributes/methods for other classes
     """
-
     def __init__(self, *args, **kwargs):
         """
-        Initialization
+        the init method
         """
-        if kwargs:
-            for key, value in kwargs.items():
-                if key != "__class__":
-                    if ["created_at", "updated_at"].count(key) == 0:
-                        self.__setattr__(key, value)
-                    else:
-                        self.__setattr__(key, datetime.fromisoformat(value))
-        else:
+        if not kwargs:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
             storage.new(self)
+        else:
+            way = "%Y-%m-%dT%H:%M:%S.%f"
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+                if key in ["created_at", "updated_at"]:
+                    setattr(self, key, datetime.datetime.strptime(value, way))
+                else:
+                    setattr(self, key, value)
 
     def __str__(self):
         """
-        String Representation of class
+        [<class name>] (<self.id>) <self.__dict__>
         """
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
+        self.__dict__.pop("__class__", None)
+        class_name = type(self).__name__
+        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
 
     def save(self):
         """
-        updates the public instance attribute
-        updated_at with the current datetime
+        update the updated_at date
         """
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.datetime.now()
         storage.save()
 
     def to_dict(self):
         """
-        returns a dictionary containing all keys/values
-        of __dict__ of the instance
+        make dict of all data of the instanse
         """
-        temp_dict = {}
+        dict_instanse = {}
         for key, value in self.__dict__.items():
-            temp_dict[key] = value if key not in ["created_at", "updated_at"]\
-                else self.__getattribute__(key).isoformat()
-        temp_dict['__class__'] = type(self).__name__
-        return temp_dict
+            if key == "created_at" or key == "updated_at":
+                value = getattr(self, key).isoformat()
+                dict_instanse[key] = value
+            else:
+                dict_instanse[key] = value
+        dict_instanse['__class__'] = type(self).__name__
+        return dict_instanse

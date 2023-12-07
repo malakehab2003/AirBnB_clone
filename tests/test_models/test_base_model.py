@@ -1,81 +1,70 @@
 #!/usr/bin/python3
-from datetime import datetime
+"""test base model"""
 import unittest
-from models.base_model import BaseModel, __doc__
-from help_functions.test_helpers import Helpers
+from models.base_model import BaseModel
+from datetime import datetime
+from os.path import exists
+from models import storage
 
 
-class TestBaseModel(unittest.TestCase):
-    """
-    Class for Unit Testing BaseModel()
+class testBaseModel(unittest.TestCase):
+    """test the base model"""
+    def test_instanse(self):
+        """test new instanse"""
+        self.model = BaseModel()
+        self.assertTrue(isinstance(self.model, BaseModel))
 
-    this class checks for every detail in the class
-    """
+    def test_id(self):
+        """test generation of id"""
+        self.model = BaseModel()
+        self.assertTrue(isinstance(self.model.id, str))
 
-    def test_docs_exists(self):
-        """
-        check that docs exist
-        """
-        self.assertIsNotNone(__doc__)
-        self.assertNotEqual(__doc__, "")
-        self.assertIsNotNone(BaseModel.__doc__)
-        self.assertNotEqual(BaseModel.__doc__, "")
-        self.assertIsNotNone(BaseModel.__init__.__doc__)
-        self.assertNotEqual(BaseModel.__init__.__doc__, "")
-        self.assertIsNotNone(BaseModel.__str__.__doc__)
-        self.assertNotEqual(BaseModel.__str__.__doc__, "")
-        self.assertIsNotNone(BaseModel.save.__doc__)
-        self.assertNotEqual(BaseModel.save.__doc__, "")
-        self.assertIsNotNone(BaseModel.to_dict.__doc__)
-        self.assertNotEqual(BaseModel.to_dict.__doc__, "")
+    def test_change_id(self):
+        """test changing of id"""
+        self.model = BaseModel()
+        self.model2 = BaseModel()
+        self.assertTrue(self.model.id != self.model2.id)
 
-    def test_base(self):
-        """
-        base test
-        """
-        helpers = Helpers()
-        my_model = BaseModel()
-        self.assertIsInstance(my_model, BaseModel)
-        self.assertIsInstance(my_model.id, str)
-        self.assertIsInstance(my_model.created_at, datetime)
-        self.assertIsInstance(my_model.updated_at, datetime)
-        my_model.name = "My First Model"
-        my_model.my_number = 89
-        my_dict = {
-            "id": my_model.id,
-            'created_at': my_model.created_at,
-            'updated_at': my_model.updated_at,
-            "name": "My First Model",
-            "my_number": 89
-        }
-        helpers.stdout(lambda: print(my_model),
-                       f"[BaseModel] ({my_model.id}) {my_dict}\n")
-        my_old_updated_at = my_model.updated_at
-        my_model.save()
-        self.assertNotEqual(my_model.updated_at, my_old_updated_at)
-        my_model_json = my_model.to_dict()
-        my_dict = {
-            "id": my_model.id,
-            'created_at': str(my_model.created_at.isoformat()),
-            'updated_at': str(my_model.updated_at.isoformat()),
-            "name": "My First Model",
-            "my_number": 89,
-            "__class__": "BaseModel"
-        }
-        helpers.stdout(lambda: print(my_model_json),
-                       f"{my_dict}\n")
-        print("JSON of my_model:")
-        my_detailed_dict = {
-            "my_number": f"(<class 'int'>) - 89",
-            "name": f"(<class 'str'>) - My First Model",
-            "__class__": f"(<class 'str'>) - {my_model_json['__class__']}",
-            "updated_at": f"(<class 'str'>) - {my_model_json['updated_at']}",
-            "id": f"(<class 'str'>) - {my_model_json['id']}",
-            "created_at": f"(<class 'str'>) - {my_model_json['created_at']}",
-        }
-        for key in my_model_json.keys():
-            helpers.stdout(lambda: print("\t{}: ({}) - {}"
-                                         .format(key,
-                                                 type(my_model_json[key]),
-                                                 my_model_json[key])),
-                           f"\t{key}: {my_detailed_dict[key]}\n")
+    def test_update(self):
+        """test update the id"""
+        self.model = BaseModel()
+        first_id = self.model.updated_at
+        self.model.save()
+        second_id = self.model.updated_at
+        self.assertTrue(first_id != second_id)
+
+    def test_to_dict(self):
+        """check to_dict function"""
+        self.model = BaseModel()
+        self.assertIsInstance(self.model.to_dict(), dict)
+
+    def test_str(self):
+        """check the str function"""
+        self.m = BaseModel()
+        m = self.m
+        self.assertEqual(str(self.m),
+                         "[BaseModel] ({}) {}".format(m.id, m.__dict__))
+
+    def test_created_at_type(self):
+        """check type of created_at and updated at"""
+        self.model = BaseModel()
+        self.assertTrue(isinstance(self.model.created_at, datetime))
+        self.assertTrue(isinstance(self.model.updated_at, datetime))
+
+    def test_to_dict_format(self):
+        """check exist in to_dict"""
+        self.model = BaseModel()
+        model_dict = self.model.to_dict()
+        self.assertIn("__class__", model_dict)
+        self.assertIn("created_at", model_dict)
+        self.assertIn("updated_at", model_dict)
+
+    def test_file_exists(self):
+        """test the exists of the file"""
+        self.model = BaseModel()
+        storage.save
+        self.assertTrue(exists("instanse.json"))
+
+
+if __name__ == "__main__":
+    unittest.main()

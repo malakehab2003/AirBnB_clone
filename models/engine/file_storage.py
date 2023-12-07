@@ -1,24 +1,19 @@
 #!/usr/bin/python3
-"""
-File Storage Module
-"""
+"""file serialization-deserialization"""
 import json
-import os
-import sys
-from help_functions.storage_helpers import check_if_float
+from os.path import exists
 
 
-class FileStorage:
+class FileStorage():
     """
-    serializes instances to a JSON file and deserializes JSON file to instances
+    class to serialization-deserialization data of each instanse
     """
-
-    __file_path = "file.json"
+    __file_path = "instanse.json"
     __objects = {}
 
     def all(self):
         """
-        returns the dictionary __objects
+        return the dict of all data
         """
         return self.__objects
 
@@ -26,61 +21,39 @@ class FileStorage:
         """
         sets in __objects the obj with key <obj class name>.id
         """
-        self.__objects[f"{type(obj).__name__}.{obj.id}"] = obj
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        self.__objects[key] = obj
 
     def save(self):
-        """
-        serializes __objects to the JSON file (path: __file_path)
-        """
-        file_objects = {}
+        dict_items = {}
         for key, value in self.__objects.items():
-            file_objects[key] = value.to_dict()
-        json_dumps = json.dumps(file_objects)
-        with open(self.__file_path, "w") as file:
-            file.write(json_dumps)
+            dict_items[key] = value.to_dict()
+        with open(self.__file_path, 'w', encoding="utf-8") as file:
+            json.dump(dict_items, file)
 
     def reload(self):
         """
         deserializes the JSON file to __objects
         """
-        if os.path.exists(self.__file_path):
-            file_contents = ""
-            with open(self.__file_path, "r") as file:
-                from models.base_model import BaseModel
-                object_dict = {
-                    "BaseModel": BaseModel,
-                    "dict": dict
-                }
-                file_contents = file.read()
-                json_loads = json.loads(file_contents)
-                self.clear_objects()
-                for key, value in json_loads.items():
-                    object_init = object_dict[value["__class__"]]
-                    self.__objects[key] = object_init(**value)
-
-    def clear_objects(self):
-        """
-        clears all objects
-        """
-        self.__objects = {}
-
-    def delete_object(self, key):
-        """
-        delete a specific object
-        based on its key
-        """
-        del self.__objects[key]
-        self.save()
-
-    def update_object(self, key, attrib, value):
-        """
-        update a specific object
-        based on its key
-        """
-        casted_value = value
-        if check_if_float(value):
-            casted_value = float(value)
-        elif value.isdecimal():
-            casted_value = int(value)
-        setattr(self.__objects[key], attrib, casted_value)
-        self.save()
+        if exists(self.__file_path):
+            from models.base_model import BaseModel
+            from models.user import User
+            from models.state import State
+            from models.city import City
+            from models.amenity import Amenity
+            from models.place import Place
+            from models.review import Review
+            class_dict = {
+                "BaseModel": BaseModel,
+                "User": User,
+                "State": State,
+                "City": City,
+                "Amenity": Amenity,
+                "Place": Place,
+                "Review": Review
+            }
+            with open(self.__file_path, 'r') as file:
+                dict_file = json.load(file)
+                for key, value in dict_file.items():
+                    needed_class = value["__class__"]
+                    self.__objects[key] = class_dict[needed_class](**value)
