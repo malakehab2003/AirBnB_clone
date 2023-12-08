@@ -12,6 +12,9 @@ class User(BaseModel):
     last_name = ""
 
     def add_child_attributes(self):
+        """
+        adds child attributes for child class
+        """
         self.email = ""
         self.password = ""
         self.first_name = ""
