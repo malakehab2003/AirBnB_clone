@@ -57,12 +57,11 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = args[0]
-        from models.base_model import BaseModel
-        classes = {"BaseModel": BaseModel}
-        if class_name not in classes.keys():
+        from models.models_dict import all_models
+        if class_name not in all_models.keys():
             print("** class doesn't exist **")
             return
-        instance = classes[class_name]()
+        instance = all_models[class_name]()
         instance.save()
         print(f"{instance.id}")
 
@@ -84,8 +83,8 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         from models.base_model import storage
-        classes = ["BaseModel"]
-        if class_name not in classes:
+        from models.models_dict import all_models
+        if class_name not in all_models.keys():
             print("** class doesn't exist **")
             return
         if len(args) < 2 or not args[1]:
@@ -121,8 +120,8 @@ class HBNBCommand(cmd.Cmd):
             print(self.list_to_string(all_objects.values()))
             return
         class_name = args[0]
-        classes = ["BaseModel"]
-        if class_name not in classes:
+        from models.models_dict import all_models
+        if class_name not in all_models.keys():
             print("** class doesn't exist **")
             return
         class_objects = dict(
@@ -154,8 +153,8 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         from models.base_model import storage
-        classes = ["BaseModel"]
-        if class_name not in classes:
+        from models.models_dict import all_models
+        if class_name not in all_models.keys():
             print("** class doesn't exist **")
             return
         if len(args) < 2 or not args[1]:
@@ -187,8 +186,8 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         from models.base_model import storage
-        classes = ["BaseModel"]
-        if class_name not in classes:
+        from models.models_dict import all_models
+        if class_name not in all_models.keys():
             print("** class doesn't exist **")
             return
         if len(args) < 2 or not args[1]:

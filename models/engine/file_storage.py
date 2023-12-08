@@ -46,16 +46,12 @@ class FileStorage:
         if os.path.exists(self.__file_path):
             file_contents = ""
             with open(self.__file_path, "r") as file:
-                from models.base_model import BaseModel
-                object_dict = {
-                    "BaseModel": BaseModel,
-                    "dict": dict
-                }
+                from models.models_dict import all_models
                 file_contents = file.read()
                 json_loads = json.loads(file_contents)
                 self.clear_objects()
                 for key, value in json_loads.items():
-                    object_init = object_dict[value["__class__"]]
+                    object_init = all_models[value["__class__"]]
                     self.__objects[key] = object_init(**value)
 
     def clear_objects(self):
