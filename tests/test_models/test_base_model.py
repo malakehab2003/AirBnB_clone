@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""test the basemodel class"""
 from datetime import datetime
 import unittest
 from models.base_model import BaseModel, __doc__

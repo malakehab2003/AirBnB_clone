@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""add check float function"""
 import re
 
 
