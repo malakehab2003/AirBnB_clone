@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""test file storage class"""
 import json
 import os
 import unittest

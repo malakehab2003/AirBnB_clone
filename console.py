@@ -4,51 +4,54 @@ HBNB Console Module
 """
 import cmd
 import shlex
+from models.base_model import BaseModel
+from models import storage
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    """
-    the entry point of the command interpreter
+    """the entry point of the command interpreter
     """
     prompt = "(hbnb) "
 
     def do_quit(self, s):
-        """
-        function on quit
+        """function on quit
         """
         return True
 
     def do_EOF(self, s):
+        """function on EOF
         """
-        function on EOF
-        """
+        print()
         return True
 
     def help_quit(self):
+        """Help when quit is entered
         """
-        Help when quit is entered
-        """
-        print("Quit command to exit the program")
+        print("Quit command to exit the program\n")
 
     def emptyline(self):
-        """Do nothing when the user enters an empty line"""
+        """Do nothing when the user enters an empty line
+        """
         pass
 
     def help_EOF(self):
-        """
-        Help when EOF is entered
+        """Help when EOF is entered
         """
         print("EOF command to exit the program")
 
     def do_test(self, s):
-        """
-        testing the console
+        """testing the console
         """
         print("Testing!!!!")
 
     def do_create(self, s):
-        """
-        Creates a new instance of BaseModel
+        """Creates a new instance of BaseModel
         saves it (to the JSON file)
         and prints the id
         """
@@ -66,15 +69,13 @@ class HBNBCommand(cmd.Cmd):
         print(f"{instance.id}")
 
     def help_create(self):
-        """
-        shows what create does
+        """shows what create does
         """
         print("creates a new instance of a class")
-        print("Usage: create <model_name>")
+        print("Usage: create <model_name>\n")
 
     def do_show(self, s):
-        """
-        Prints the string representation of an instance
+        """Prints the string representation of an instance
         based on the class name and id
         """
         args = shlex.split(s)
@@ -100,20 +101,17 @@ class HBNBCommand(cmd.Cmd):
         print(f"{instance}")
 
     def help_show(self):
-        """
-        shows what show does
+        """shows what show does
         """
         print(
             "Prints the string representation of an instance" +
             " based on the class name and id")
-        print("Usage: show <model_name> <id>")
+        print("Usage: show <model_name> <id>\n")
 
     def do_all(self, s):
-        """
-        Prints all string representation of all instances
+        """Prints all string representation of all instances
         based or not on the class name
         """
-        from models.base_model import storage
         args = shlex.split(s)
         all_objects = storage.all()
         if not args or not args[0]:
@@ -130,27 +128,33 @@ class HBNBCommand(cmd.Cmd):
         print(self.list_to_string(class_objects.values()))
 
     def list_to_string(self, values):
-        """
-        converts objects to str representation
+        """converts objects to str representation
         """
         return list(map(lambda obj: str(obj), values))
 
     def help_all(self):
-        """
-        shows what all does
+        """shows what all does
         """
         print("Prints all string representation of all instances" +
               " based or not on the class name")
-        print("Usage: all [model_name]")
+        print("Usage: all [model_name]\n")
 
     def do_destroy(self, s):
-        """
-        Deletes an instance based on the class name and id
+        """Deletes an instance based on the class name and id
         """
         args = shlex.split(s)
         if not args or not args[0]:
             print("** class name missing **")
             return
+        classes = [
+            "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Amenity",
+            "Place",
+            "Review"
+        ]
         class_name = args[0]
         from models.base_model import storage
         from models.models_dict import all_models
@@ -169,15 +173,13 @@ class HBNBCommand(cmd.Cmd):
         storage.delete_object(key)
 
     def help_destroy(self):
-        """
-        shows what destroy does
+        """shows what destroy does
         """
         print("Deletes an instance based on the class name and id")
-        print("Usage: destroy <model_name> <id>")
+        print("Usage: destroy <model_name> <id>\n")
 
     def do_update(self, s):
-        """
-        Updates an instance based on the class name and id
+        """Updates an instance based on the class name and id
         by adding or updating attribute
         """
         args = shlex.split(s)
@@ -212,12 +214,12 @@ class HBNBCommand(cmd.Cmd):
         storage.update_object(key, attrib, value)
 
     def help_update(self):
-        """
-        shows what update does
+        """shows what update does
         """
         print("Updates an instance based on the class name and id" +
               " by adding or updating attribute")
-        print('update <class name> <id> <attribute name> "<attribute value>"')
+        print('update <class name> <id> <attribute name>' +
+              '"<attribute value>"\n')
 
 
 if __name__ == '__main__':
