@@ -73,10 +73,6 @@ class FileStorage:
         update a specific object
         based on its key
         """
-        casted_value = value
-        if check_if_float(value):
-            casted_value = float(value)
-        elif value.isdecimal():
-            casted_value = int(value)
-        setattr(self.__objects[key], attrib, casted_value)
+        from models.models_dict import all_attrib
+        setattr(self.__objects[key], attrib, all_attrib[attrib](value))
         self.save()

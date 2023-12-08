@@ -140,15 +140,6 @@ class HBNBCommand(cmd.Cmd):
         if not args or not args[0]:
             print("** class name missing **")
             return
-        classes = [
-            "BaseModel",
-            "User",
-            "State",
-            "City",
-            "Amenity",
-            "Place",
-            "Review"
-        ]
         class_name = args[0]
         from models.base_model import storage
         from models.models_dict import all_models
