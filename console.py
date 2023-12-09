@@ -196,7 +196,7 @@ class HBNBCommand(cmd.Cmd):
         value = args[3]
         if value[0] == '"':
             value = value[1:-1]
-        if value.isdigit():
+        if is_int(value):
             casted_arg = int(value)
         elif is_float(value):
             casted_arg = float(value)
@@ -212,6 +212,15 @@ class HBNBCommand(cmd.Cmd):
               " by adding or updating attribute")
         print('update <class name> <id> <attribute name>' +
               '"<attribute value>"\n')
+
+def is_int(value):
+    """check if int"""
+    try:
+        int_value = int(value)
+        return True
+    except ValueError:
+        return False
+
 
 def is_float(value):
     """check if number is float
