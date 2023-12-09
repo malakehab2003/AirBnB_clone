@@ -213,6 +213,7 @@ class HBNBCommand(cmd.Cmd):
         print('update <class name> <id> <attribute name>' +
               '"<attribute value>"\n')
 
+
 def is_int(value):
     """check if int"""
     try:
