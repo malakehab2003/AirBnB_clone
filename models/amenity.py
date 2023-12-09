@@ -10,9 +10,3 @@ class Amenity(BaseModel):
         name (str): The name of the amenity.
     """
     name = ""
-
-    def add_child_attributes(self):
-        """
-        adds child attributes for child class
-        """
-        self.name = ""

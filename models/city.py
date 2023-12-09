@@ -11,10 +11,3 @@ class City(BaseModel):
     """
     state_id = ""
     name = ""
-
-    def add_child_attributes(self):
-        """
-        adds child attributes for child class
-        """
-        self.state_id = ""
-        self.name = ""
