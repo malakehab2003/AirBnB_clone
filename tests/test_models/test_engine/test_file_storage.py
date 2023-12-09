@@ -10,6 +10,7 @@ from models.engine.file_storage import FileStorage
 
 class TestFileStorage(unittest.TestCase):
     """test file storage"""
+
     def setUp(self):
         """set up data to use"""
         self.storage = FileStorage()
@@ -21,12 +22,12 @@ class TestFileStorage(unittest.TestCase):
 
     def test_file(self):
         """test the file exists"""
-        self.assertTrue(exists("file.json"))
+        self.assertTrue(exists("instance.json"))
 
     def test_remove(self):
         """remove file"""
-        remove("file.json")
-        self.assertFalse(exists("file.json"))
+        remove("instance.json")
+        self.assertFalse(exists("instance.json"))
 
     def test_all(self):
         """test all function"""
