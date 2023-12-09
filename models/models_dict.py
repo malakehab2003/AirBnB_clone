@@ -38,6 +38,6 @@ all_attrib = {
     "price_by_night": int,
     "latitude": float,
     "longitude": float,
-    "amenity_ids": list[str],
+    "amenity_ids": list,
     "place_id": str,
 }
