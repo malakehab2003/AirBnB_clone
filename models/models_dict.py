@@ -40,4 +40,4 @@ all_attrib = {
     "longitude": float,
     "amenity_ids": list,
     "place_id": str,
-}
+    }
