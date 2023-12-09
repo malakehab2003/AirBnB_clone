@@ -42,7 +42,7 @@ class TestHBNBCommand(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fakeOutput:
             self.assertFalse(console.onecmd('test'))
         self.assertEqual('Testing!!!!\n', fakeOutput.getvalue())
-        line = console.precmd('exit')
+        line = console.precmd('quit')
         result = console.onecmd(line)
         result = console.postcmd(result, line)
-        self.assertFalse(result)
+        self.assertTrue(result)
