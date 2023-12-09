@@ -155,7 +155,7 @@ class HBNBCommand(cmd.Cmd):
         if key not in all_objects.keys():
             print("** no instance found **")
             return
-        storage.delete_object(key)
+        del all_objects[key]
 
     def help_destroy(self):
         """shows what destroy does
@@ -183,6 +183,7 @@ class HBNBCommand(cmd.Cmd):
         id = args[1]
         all_objects = storage.all()
         key = f"{class_name}.{id}"
+        print(key)
         if key not in all_objects.keys():
             print("** no instance found **")
             return
@@ -196,7 +197,13 @@ class HBNBCommand(cmd.Cmd):
         value = args[3]
         if value[0] == '"':
             value = value[1:-1]
-        storage.update_object(key, attrib, value)
+        if value.isdigit():
+            casted_arg = int(value)
+        elif is_float(value):
+            casted_arg = int(value)
+        else:
+            casted_arg = str(value)
+        setattr(all_objects[key], args[2], casted_arg)
 
     def help_update(self):
         """shows what update does
@@ -205,6 +212,15 @@ class HBNBCommand(cmd.Cmd):
               " by adding or updating attribute")
         print('update <class name> <id> <attribute name>' +
               '"<attribute value>"\n')
+
+def is_float(value):
+    """check if number is float
+    """
+    try:
+        float_value = float(value)
+        return True
+    except ValueError:
+        return False
 
 
 if __name__ == '__main__':
