@@ -21,7 +21,6 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, s):
         """function on EOF
         """
-        print()
         return True
 
     def help_quit(self):
@@ -225,4 +224,3 @@ def is_float(value):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
