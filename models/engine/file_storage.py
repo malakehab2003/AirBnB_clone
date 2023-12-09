@@ -57,3 +57,9 @@ class FileStorage():
                 for key, value in dict_file.items():
                     needed_class = value["__class__"]
                     self.__objects[key] = class_dict[needed_class](**value)
+
+    def clear_objects(self):
+        """
+        deletes all objects
+        """
+        self.__objects = {}
