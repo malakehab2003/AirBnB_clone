@@ -203,6 +203,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             casted_arg = str(value)
         setattr(all_objects[key], args[2], casted_arg)
+        storage.save()
 
     def help_update(self):
         """shows what update does
