@@ -200,7 +200,7 @@ class HBNBCommand(cmd.Cmd):
         if value.isdigit():
             casted_arg = int(value)
         elif is_float(value):
-            casted_arg = int(value)
+            casted_arg = float(value)
         else:
             casted_arg = str(value)
         setattr(all_objects[key], args[2], casted_arg)
