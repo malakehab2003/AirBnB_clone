@@ -50,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
         and prints the id
         """
         args = shlex.split(s)
-        if not args or not args[0]:
+        if not args or not args[0] or args[0] == "":
             print("** class name missing **")
             return
         class_name = args[0]
@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
         based on the class name and id
         """
         args = shlex.split(s)
-        if not args or not args[0]:
+        if not args or not args[0] or args[0] == "":
             print("** class name missing **")
             return
         class_name = args[0]
@@ -108,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = shlex.split(s)
         all_objects = storage.all()
-        if not args or not args[0]:
+        if not args or not args[0] or args[0] == "":
             print(self.list_to_string(all_objects.values()))
             return
         class_name = args[0]
