@@ -22,12 +22,12 @@ class TestFileStorage(unittest.TestCase):
 
     def test_file(self):
         """test the file exists"""
-        self.assertTrue(exists("instance.json"))
+        self.assertTrue(exists("file.json"))
 
     def test_remove(self):
         """remove file"""
-        remove("instance.json")
-        self.assertFalse(exists("instance.json"))
+        remove("file.json")
+        self.assertFalse(exists("file.json"))
 
     def test_all(self):
         """test all function"""
