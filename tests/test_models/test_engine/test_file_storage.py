@@ -1,59 +1,55 @@
 #!/usr/bin/python3
-"""test file storage class"""
-import json
-import os
-import unittest
-
-from models import storage
+"""test file storage"""
 from models.base_model import BaseModel
+import unittest
+from models import storage
+from os.path import exists
+from os import remove
+from models.engine.file_storage import FileStorage
 
 
 class TestFileStorage(unittest.TestCase):
-    """
-    Class for Unit Testing FileStorage()
+    """test file storage"""
+    def setUp(self):
+        """set up data to use"""
+        self.storage = FileStorage()
 
-    this class checks for every detail in the class
-    """
-    file_path = "file.json"
+    def test_exist(self):
+        """test save"""
+        self.mod = BaseModel()
+        self.assertIn("BaseModel." + self.mod.id, storage.all().keys())
 
-    def clearFile(self):
-        """
-        deletes the file created for storage
-        """
-        if os.path.exists(self.file_path):
-            os.remove(self.file_path)
+    def test_file(self):
+        """test the file exists"""
+        self.assertTrue(exists("instanse.json"))
 
-    def test_base(self):
-        """
-        checks base case
-        """
-        self.clearFile()
-        storage.clear_objects()
-        self.assertTrue(len(storage.all()) == 0)
-        print("-- Create a new object --")
-        my_model = BaseModel()
-        my_model.name = "My_First_Model"
-        my_model.my_number = 89
-        my_model.save()
-        self.assertTrue(os.path.exists(self.file_path))
-        with open(self.file_path) as file:
-            retrieved_json = file.read()
-            self.assertTrue(retrieved_json)
-            retrieved_dict = json.loads(retrieved_json)
-            last_key = list(retrieved_dict.keys())[-1]
-            self.assertDictEqual(retrieved_dict[last_key], my_model.to_dict())
+    def test_remove(self):
+        """remove file"""
+        remove("instanse.json")
+        self.assertFalse(exists("instanse.json"))
 
-    def test_base_after_reload(self):
-        """
-        checks if reload works
-        """
-        self.assertIsNotNone(storage.all())
+    def test_all(self):
+        """test all function"""
+        all_objects = self.storage.all()
+        self.assertIsInstance(all_objects, dict)
 
-    def test_no_file(self):
-        """
-        check no file behavior
-        """
-        old_storage = storage.all()
-        self.clearFile()
-        storage.reload()
-        self.assertDictEqual(old_storage, storage.all())
+    def test_new(self):
+        """test new function"""
+        model = BaseModel()
+        self.storage.new(model)
+        self.assertIn("BaseModel.{}".format(model.id), self.storage.all())
+
+    def test_save_reload(self):
+        """ test reload function"""
+        model = BaseModel()
+        self.storage.new(model)
+        self.storage.save()
+
+        new_storage = FileStorage()
+        new_storage.reload()
+
+        self.assertIn("BaseModel.{}".format(model.id), new_storage.all())
+
+
+if __name__ == "__main__":
+    unittest.main()
