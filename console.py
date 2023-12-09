@@ -183,7 +183,6 @@ class HBNBCommand(cmd.Cmd):
         id = args[1]
         all_objects = storage.all()
         key = f"{class_name}.{id}"
-        print(key)
         if key not in all_objects.keys():
             print("** no instance found **")
             return
