@@ -4,7 +4,11 @@ from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    """create the Amenity class"""
+    """create the Amenity class
+
+    Attributes:
+        name (str): The name of the amenity.
+    """
     name = ""
 
     def add_child_attributes(self):
