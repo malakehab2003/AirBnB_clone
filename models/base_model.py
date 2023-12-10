@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/pythonf3
 """
 base model module, for managing all objects
 """

@@ -252,10 +252,8 @@ class HBNBCommand(cmd.Cmd):
                 args_str = ""
                 args = args[1].split(',')
                 for i in args:
-                    if i[-1:] == ')':
-                        i = i[0:-1]
+                    i = i.replace(")", "")
                     args_str = f"{args_str} {i}"
-                print(args_str)
             method_name = f"do_{command_name}"
             if hasattr(self, method_name):
                 method = getattr(self, method_name)
