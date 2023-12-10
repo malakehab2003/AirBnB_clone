@@ -218,6 +218,17 @@ class HBNBCommand(cmd.Cmd):
         print('update <class name> <id> <attribute name>' +
               '"<attribute value>"\n')
 
+    def default(self, arg):
+        """if command not in commands"""
+        line = arg.split('.')
+        if len(line) == 2:
+            class_name, command = line
+            method_name = f"do_{command}"
+            if hasattr(self, method_name):
+                method = getattr(self, method_name)
+                method(class_name)
+                return
+
 
 def is_int(value):
     """check if int"""
