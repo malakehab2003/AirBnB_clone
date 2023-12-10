@@ -236,6 +236,28 @@ class HBNBCommand(cmd.Cmd):
                     count += 1
             print(count)
 
+    def run_command(self, command_name, class_name, args_str):
+        """run the command with class name and args
+        """
+        method_name = f"do_{command_name}"
+        if hasattr(self, method_name):
+            method = getattr(self, method_name)
+            args = class_name
+            if args_str != "":
+                args = f"{class_name} {args_str}"
+            method(args)
+
+    def run_command(self, command_name, class_name, args_str):
+        """run the command with class name and args
+        """
+        method_name = f"do_{command_name}"
+        if hasattr(self, method_name):
+            method = getattr(self, method_name)
+            args = class_name
+            if args_str != "":
+                args = f"{class_name} {args_str}"
+            method(args)
+
     def default(self, arg):
         """if command not in commands"""
         line = arg.split('.')
@@ -254,18 +276,7 @@ class HBNBCommand(cmd.Cmd):
                 for i in args:
                     i = i.replace(")", "")
                     args_str = f"{args_str} {i}"
-            run_command(command_name, class_name, arg_str)
-
-    def run_command(self, command_name, class_name, args_str):
-        """run the command with class name and args
-        """
-        method_name = f"do_{command_name}"
-        if hasattr(self, method_name):
-            method = getattr(self, method_name)
-            args = class_name
-            if args_str != "":
-                args = f"{class_name} {args_str}"
-            method(args)
+            self.run_command(command_name, class_name, args_str)
 
 
 def is_int(value):
