@@ -26,7 +26,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_file(self):
         """test file"""
-        self.assertFalse(exists("file.json"))
+        self.assertTrue(exists("instanse.json"))
 
     def test_new(self):
         """test new function"""
