@@ -3,7 +3,7 @@
 from models.base_model import BaseModel
 import unittest
 from models import storage
-#from os.path import exists
+from os.path import exists
 from models.engine.file_storage import FileStorage
 
 
@@ -23,6 +23,10 @@ class TestFileStorage(unittest.TestCase):
         """test all function"""
         all_objects = self.storage.all()
         self.assertIsInstance(all_objects, dict)
+
+    def test_file(self):
+        """test file"""
+        self.assertFalse(exists("file.json"))
 
     def test_new(self):
         """test new function"""
