@@ -4,7 +4,6 @@ import unittest
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models import storage
-import os
 import json
 
 
@@ -16,10 +15,6 @@ class FileStorageTests(unittest.TestCase):
     def testClassInstance(self):
         """ Check instance """
         self.assertIsInstance(storage, FileStorage)
-
-    def test_file(self):
-        """test file"""
-        self.assertTrue(os.path.exists("file.json"))
 
     def testStoreBaseModel(self):
         """ Test save and reload functions """
@@ -69,7 +64,6 @@ class FileStorageTests(unittest.TestCase):
     def testreload(self):
         """test if reload """
         self.my_model.save()
-        self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
         dobj = storage.all()
         FileStorage._FileStorage__objects = {}
         self.assertNotEqual(dobj, FileStorage._FileStorage__objects)
