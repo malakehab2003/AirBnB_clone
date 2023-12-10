@@ -3,7 +3,7 @@
 from models.base_model import BaseModel
 import unittest
 from models import storage
-from os.path import exists
+#from os.path import exists
 from models.engine.file_storage import FileStorage
 
 
