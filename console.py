@@ -6,6 +6,7 @@ import cmd
 import shlex
 from models.base_model import BaseModel
 from models import storage
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -217,6 +218,23 @@ class HBNBCommand(cmd.Cmd):
               " by adding or updating attribute")
         print('update <class name> <id> <attribute name>' +
               '"<attribute value>"\n')
+
+    def do_count(self, arg):
+        """count number of objects
+        """
+        from models.base_model import storage
+        from models.models_dict import all_models
+        count = 0
+        if arg not in all_models.keys():
+            print("** class doesn't exist **")
+            return
+        else:
+            all_objects = storage.all()
+            for key in all_objects.keys():
+                search_class = re.search(f"{arg}\.*", key)
+                if search_class:
+                    count += 1
+            print(count)
 
     def default(self, arg):
         """if command not in commands"""
