@@ -244,6 +244,7 @@ class HBNBCommand(cmd.Cmd):
             if command[-2:] == "()":
                 command = command[0:-2]
                 args = None
+                command_name = command
             else:
                 args = command.split('(')
                 command_name = args[0]
