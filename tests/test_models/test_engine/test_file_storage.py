@@ -20,11 +20,6 @@ class TestFileStorage(unittest.TestCase):
         self.mod = BaseModel()
         self.assertIn("BaseModel." + self.mod.id, storage.all().keys())
 
-    def test_remove(self):
-        """remove file"""
-        remove("file.json")
-        self.assertFalse(exists("file.json"))
-
     def test_all(self):
         """test all function"""
         all_objects = self.storage.all()

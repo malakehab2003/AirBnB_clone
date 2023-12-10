@@ -230,12 +230,12 @@ class HBNBCommand(cmd.Cmd):
             return
         else:
             all_objects = storage.all()
+            check_seq = f"{arg}.*"
             for key in all_objects.keys():
-                search_class = re.search(f"{arg}\.*", key)
+                search_class = re.search(check_seq, key)
                 if search_class:
                     count += 1
             print(count)
-
 
     def run_command(self, command_name, class_name, args_str):
         """run the command with class name and args
@@ -274,16 +274,16 @@ class HBNBCommand(cmd.Cmd):
             match = re.search(r'\{(.+?)\}', args_str)
             if match:
                 arg_str = None
-                content_inside_braces = match.group(1)
+                content = match.group(1)
                 rm = ["\"", "\'", ":"]
                 for c in rm:
-                    content_inside_braces = content_inside_braces.replace(c, "")
-                content_inside_braces = content_inside_braces.split('  ')
-                for i in content_inside_braces:
+                    content = content.replace(c, "")
+                content = content.split('  ')
+                for i in content:
                     args_str = f"{id} {i}"
                     self.run_command(command_name, class_name, args_str)
                 args_str = None
-            if args_str != None:
+            if args_str is not None:
                 self.run_command(command_name, class_name, args_str)
 
 
