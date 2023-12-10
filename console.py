@@ -245,20 +245,24 @@ class HBNBCommand(cmd.Cmd):
                 command = command[0:-2]
                 args = None
                 command_name = command
+                args_str = ""
             else:
-                args = command.split('(')
+                args = command.split("(")
                 command_name = args[0]
-                if args[1][-1:] == ')':
-                    args = args[1][0:-1]
+                args_str = ""
+                args = args[1].split(',')
+                for i in args:
+                    if i[-1:] == ')':
+                        i = i[0:-1]
+                    args_str = f"{args_str} {i}"
+                print(args_str)
             method_name = f"do_{command_name}"
             if hasattr(self, method_name):
                 method = getattr(self, method_name)
-                if args != None:
-                    args = f"{class_name} {args}"
-                else:
-                    args = class_name
+                args = class_name
+                if args_str != "":
+                    args = f"{class_name} {args_str}"
                 method(args)
-                return
 
 
 def is_int(value):
