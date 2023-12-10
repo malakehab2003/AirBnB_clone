@@ -38,6 +38,7 @@ class TestHBNBCommand_prompting(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
 
+
 class TestHBNBCommand_help(unittest.TestCase):
     """Unittests for testing help messages of the HBNB command interpreter."""
 
@@ -47,6 +48,7 @@ class TestHBNBCommand_help(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help quit"))
             self.assertEqual(h, output.getvalue().strip())
+
 
 class TestHBNBCommand_exit(unittest.TestCase):
     """Unittests for testing exiting from the HBNB command interpreter."""
@@ -60,6 +62,7 @@ class TestHBNBCommand_exit(unittest.TestCase):
         """test console"""
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
+
 
 class TestHBNBCommand_create(unittest.TestCase):
     """Unittests for testing create from the HBNB command interpreter."""
@@ -306,6 +309,7 @@ class TestHBNBCommand_create(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertEqual(obj.__str__(), output.getvalue().strip())
 
+
 class TestHBNBCommand_destroy(unittest.TestCase):
     """Unittests for testing destroy from the HBNB command interpreter."""
 
@@ -340,6 +344,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("MyModel.destroy()"))
             self.assertEqual(correct, output.getvalue().strip())
+
 
 class TestHBNBCommand_all(unittest.TestCase):
     """Unittests for testing all of the HBNB command interpreter."""
@@ -472,6 +477,7 @@ class TestHBNBCommand_all(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("Review.all()"))
             self.assertIn("Review", output.getvalue().strip())
             self.assertNotIn("BaseModel", output.getvalue().strip())
+
 
 class TestHBNBCommand_update(unittest.TestCase):
     """Unittests for testing update from the HBNB command interpreter."""
@@ -628,6 +634,7 @@ class TestHBNBCommand_update(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(testCmd))
             self.assertEqual(correct, output.getvalue().strip())
 
+
 class TestHBNBCommand_count(unittest.TestCase):
     """Unittests for testing count method of HBNB comand interpreter."""
 
@@ -656,7 +663,8 @@ class TestHBNBCommand_count(unittest.TestCase):
         """test_count_invalid_class"""
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("MyModel.count()"))
-            self.assertEqual("** class doesn't exist **", output.getvalue().strip())
+            err = "** class doesn't exist **"
+            self.assertEqual(err, output.getvalue().strip())
 
     def test_count_object(self):
         """test_count_object"""
