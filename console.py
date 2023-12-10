@@ -119,7 +119,11 @@ class HBNBCommand(cmd.Cmd):
         class_objects = dict(
             filter(lambda item: item[0].startswith(class_name),
                    all_objects.items()))
-        print(self.list_to_string(class_objects.values()))
+        my_list = self.list_to_string(class_objects.values())
+        if len(my_list) != 0:
+            print(my_list)
+        else:
+            return
 
     def list_to_string(self, values):
         """converts objects to str representation
@@ -156,6 +160,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
         del all_objects[key]
+        storage.save()
 
     def help_destroy(self):
         """shows what destroy does
