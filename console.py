@@ -236,16 +236,6 @@ class HBNBCommand(cmd.Cmd):
                     count += 1
             print(count)
 
-    def run_command(self, command_name, class_name, args_str):
-        """run the command with class name and args
-        """
-        method_name = f"do_{command_name}"
-        if hasattr(self, method_name):
-            method = getattr(self, method_name)
-            args = class_name
-            if args_str != "":
-                args = f"{class_name} {args_str}"
-            method(args)
 
     def run_command(self, command_name, class_name, args_str):
         """run the command with class name and args
@@ -263,20 +253,38 @@ class HBNBCommand(cmd.Cmd):
         line = arg.split('.')
         if len(line) == 2:
             class_name, command = line
+            # if the command taking no args
             if command[-2:] == "()":
                 command = command[0:-2]
                 args = None
                 command_name = command
                 args_str = ""
             else:
+                # if command taking args
                 args = command.split("(")
                 command_name = args[0]
                 args_str = ""
                 args = args[1].split(',')
+                id = args[0]
+                id = id.replace("\"", "")
                 for i in args:
                     i = i.replace(")", "")
                     args_str = f"{args_str} {i}"
-            self.run_command(command_name, class_name, args_str)
+            # if the arg is dictionary
+            match = re.search(r'\{(.+?)\}', args_str)
+            if match:
+                arg_str = None
+                content_inside_braces = match.group(1)
+                rm = ["\"", "\'", ":"]
+                for c in rm:
+                    content_inside_braces = content_inside_braces.replace(c, "")
+                content_inside_braces = content_inside_braces.split('  ')
+                for i in content_inside_braces:
+                    args_str = f"{id} {i}"
+                    self.run_command(command_name, class_name, args_str)
+                args_str = None
+            if args_str != None:
+                self.run_command(command_name, class_name, args_str)
 
 
 def is_int(value):
