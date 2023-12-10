@@ -17,6 +17,10 @@ class FileStorageTests(unittest.TestCase):
         """ Check instance """
         self.assertIsInstance(storage, FileStorage)
 
+    def test_file(self):
+        """test file"""
+        self.assertTrue(os.path.exists("file.json"))
+
     def testStoreBaseModel(self):
         """ Test save and reload functions """
         self.my_model.full_name = "BaseModel Instance"
