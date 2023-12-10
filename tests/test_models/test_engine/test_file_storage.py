@@ -4,7 +4,6 @@ from models.base_model import BaseModel
 import unittest
 from models import storage
 from os.path import exists
-from os import remove
 from models.engine.file_storage import FileStorage
 
 
