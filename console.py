@@ -243,10 +243,20 @@ class HBNBCommand(cmd.Cmd):
             class_name, command = line
             if command[-2:] == "()":
                 command = command[0:-2]
-            method_name = f"do_{command}"
+                args = None
+            else:
+                args = command.split('(')
+                command_name = args[0]
+                if args[1][-1:] == ')':
+                    args = args[1][0:-1]
+            method_name = f"do_{command_name}"
             if hasattr(self, method_name):
                 method = getattr(self, method_name)
-                method(class_name)
+                if args != None:
+                    args = f"{class_name} {args}"
+                else:
+                    args = class_name
+                method(args)
                 return
 
 
