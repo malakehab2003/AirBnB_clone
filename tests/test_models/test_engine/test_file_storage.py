@@ -25,6 +25,12 @@ class TestFileStorage(unittest.TestCase):
         all_objects = self.storage.all()
         self.assertIsInstance(all_objects, dict)
 
+    def test_file(self):
+        """test file exist
+        """
+        make = FileStorage()
+        self.assertTrue(exists("file.json"))
+
     def test_new(self):
         """test new function"""
         model = BaseModel()
