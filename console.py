@@ -223,6 +223,8 @@ class HBNBCommand(cmd.Cmd):
         line = arg.split('.')
         if len(line) == 2:
             class_name, command = line
+            if command[-2:] == "()":
+                command = command[0:-2]
             method_name = f"do_{command}"
             if hasattr(self, method_name):
                 method = getattr(self, method_name)
